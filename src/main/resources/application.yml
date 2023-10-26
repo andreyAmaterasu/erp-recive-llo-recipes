@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: erp-recive-llo-recipes
+  datasource:
+    checkout-portal:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      url: jdbc:sqlserver://${spring.datasource.checkout-portal.host};databaseName=${spring.datasource.checkout-portal.database};applicationName=${spring.application.name};encrypt=true;trustServerCertificate=true;
+      host: host
+      database: database
+      username: username
+      password: password
+      hikari:
+        minimum-idle: 3
+        maximum-pool-size: 3
+        schema: dbo
+    erp:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://${spring.datasource.erp.host}:${spring.datasource.erp.port}/${spring.datasource.erp.database}
+      host: host
+      port: port
+      database: database
+      username: username
+      password: password
+      hikari:
+        minimum-idle: 3
+        maximum-pool-size: 3
+        schema: public
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+app:
+  transfer-recipe:
+    recipe-fetch-limit: 1
+    #Сопоставление типа назначения (Портал выписки: e-Rp)
+    prescription-type:
+      Drug: 0
+      nutrition: 1
+      device: 2
+    #Сопоставление кода источника финансирования (Портал выписки: e-Rp)
+    funding-source:
+      1: 0
+      2: 1
+
+logging:
+  file:
+    path: logs
+    name: ${logging.file.path}/${spring.application.name}.log
+  level:
+    ru:
+      hostco: info
+    root: info
+  pattern:
+    file: '"%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"'
